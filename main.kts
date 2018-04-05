@@ -3,14 +3,80 @@
 println("UW Homework: Simple Kotlin")
 
 // write a "whenFn" that takes an arg of type "Any" and returns a String
+fun whenFn(input: Any) : String {
+    when(input){
+        "Hello" -> return "world"
+        is String -> return "Say what?"
+        0 -> return "zero"
+        1 -> return "one"
+        in 2..10 -> return "low number"
+        is Int -> return "a number"
+    }
+    return "I don't understand"
+}
 
 // write an "add" function that takes two Ints, returns an Int, and adds the values
+fun add(alpha: Int, beta: Int) : Int {
+    return alpha + beta
+}
 // write a "sub" function that takes two Ints, returns an Int, and subtracts the values
+fun sub(alpha: Int, beta: Int) : Int {
+    return alpha - beta
+}
 // write a "mathOp" function that takes two Ints and a function (that takes two Ints and returns an Int), returns an Int, and applies the passed-in-function to the arguments
-
+fun mathOp(alpha: Int, beta: Int, operation: (a1: Int, b1: Int) -> Int) : Int {
+    return operation(alpha, beta)
+}
 // write a class "Person" with first name, last name and age
+class Person(var firstName: String, var lastName: String, var age: Int ){
+
+    init {
+        println("Person $firstName $lastName has been created!")
+        
+    }
+    var debugString = ""
+    get() = "[Person firstName:$firstName lastName:$lastName age:$age]"
+
+    fun equals(p: Person) : Boolean {
+        if(this.firstName == p.firstName && this.lastName == p.lastName && this.age == p.age){
+            return true
+        }
+        else{
+            return false
+        }
+    }
+
+    override fun hashCode(): Int {
+        return this.firstName.length * 31 + this.lastName.length * 31 + age 
+    }
+}
 
 // write a class "Money"
+class Money(var amount: Int, var currency: String){
+    
+    fun convert(toCurrency: String) : Money {
+        var rate : Double = 0.0
+        when(currency){
+            "USD" -> when(toCurrency){
+                        "USD" -> rate = 1.0
+                        "EUR" -> rate = 1.5
+                        "CAN" -> rate = 1.25
+                        "GBP" -> rate = 0.5
+                     }
+            "GBP" -> when(toCurrency){
+                        "USD" -> rate = 2.0
+                        "EUR" -> rate = 3.0
+                        "CAN" -> rate = 2.5
+                        "GBP" -> rate = 1.0
+                     }
+        }
+        return Money((rate * amount).toInt(), toCurrency)
+    }
+
+    operator fun plus(m: Money) : Money {
+        return Money(this.amount + m.convert(this.currency).amount, currency)
+    }
+}
 
 // ============ DO NOT EDIT BELOW THIS LINE =============
 
